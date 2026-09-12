@@ -250,9 +250,6 @@ final text = value?.trim() ?? "";
 if (text.isEmpty) {
 return "Please enter $hint";
 }
-
-
-
 if (isEmail) {
 final emailRegex = RegExp(
 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -263,21 +260,14 @@ return "Please enter a valid email";
 }
 }
 
-
-
 if (isPassword) {
 
-// Minimum 6 characters
 if (text.length < 6) {
 return "Password must be at least 6 characters";
 }
 
 if (!RegExp(r'[A-Za-z]').hasMatch(text)) {
 return "Password must contain a letter";
-}
-
-if (!RegExp(r'[0-9]').hasMatch(text)) {
-return "Password must contain a number";
 }
 }
 
@@ -339,8 +329,6 @@ fontSize: 9,
 ),
 );
 }
-
-// ================= SOCIAL BUTTON =================
 
 Widget socialButton({
 required FaIconData icon,

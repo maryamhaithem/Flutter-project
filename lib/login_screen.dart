@@ -101,7 +101,7 @@ fontSize: 18,
 
 const SizedBox(height: 14),
 
-// Name
+
 label("Name"),
 
 const SizedBox(height: 6),
@@ -118,7 +118,6 @@ return null;
 
 const SizedBox(height: 14),
 
-// Email
 label("Email address"),
 
 const SizedBox(height: 6),
@@ -141,7 +140,7 @@ return null;
 
 const SizedBox(height: 14),
 
-// Password
+
 Row(
 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 children: [
@@ -218,7 +217,6 @@ color: Colors.red,
 
 const SizedBox(height: 14),
 
-// Terms
 Row(
 children: [
 Checkbox(
@@ -256,18 +254,13 @@ decoration: TextDecoration.underline,
 
 const SizedBox(height: 16),
 
-// Login Button
 SizedBox(
 width: double.infinity,
 height: 45,
 
 child: ElevatedButton(
 onPressed: () {
-
-// Check all validators
 if (_formKey.currentState!.validate()) {
-
-// Check Terms
 if (!agreeToTerms) {
 ScaffoldMessenger.of(context).showSnackBar(
 const SnackBar(
@@ -280,7 +273,6 @@ content: Text(
 return;
 }
 
-// Everything is valid
 ScaffoldMessenger.of(context).showSnackBar(
 const SnackBar(
 content: Text(
@@ -370,7 +362,6 @@ fontSize: 13,
 );
 }
 
-// Label
 Widget label(String text) {
 return Text(
 text,
@@ -382,7 +373,6 @@ fontSize: 18,
 );
 }
 
-// Text Field with Validator
 Widget textField({
 TextInputType? keyboardType,
 String? Function(String?)? validator,
@@ -416,7 +406,6 @@ color: Colors.red,
 );
 }
 
-// Social Button
 Widget socialButton({
 required FaIconData icon,
 required String text,
