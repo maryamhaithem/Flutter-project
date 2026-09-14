@@ -18,7 +18,11 @@ class MyApp extends StatelessWidget {
 }
 */
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_pro1/app_router.dart';
+import 'package:flutter_pro1/app_theme.dart';
+import 'package:flutter_pro1/theme_cubit.dart';
+import 'package:flutter_pro1/theme_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,18 +33,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
 
-      theme: ThemeData(
-        fontFamily: 'Roboto',
-        scaffoldBackgroundColor: Colors.black,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-        ),
+            theme: state.isDark
+                ? AppTheme().darktheme()
+                : AppTheme().lighttheme(),
+
+            routerConfig: AppRouter.appRouter,
+          );
+        },
       ),
-
-      home: const LoginScreen(),
     );
   }
 }

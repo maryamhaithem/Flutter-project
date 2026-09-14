@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-
 import 'package:flutter_pro1/login_screen.dart';
 import 'package:flutter_pro1/signup_screen.dart';
 import 'package:flutter_pro1/routes.dart';

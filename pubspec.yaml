@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router: ^18.0.1
   font_awesome_flutter: ^11.0.0
+  flutter_bloc: ^9.1.1
 
 
 dev_dependencies:
@@ -54,17 +55,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-flutter:
-  uses-material-design: true
-
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto_Condensed-Black.ttf
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-  # To add assets to your application, add an assets section, like this:
-  assets:
-     - assets/images/images.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
