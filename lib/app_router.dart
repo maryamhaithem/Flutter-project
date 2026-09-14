@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_pro1/login_screen.dart';
 import 'package:flutter_pro1/signup_screen.dart';
 import 'package:flutter_pro1/routes.dart';
-
+import 'package:flutter_pro1/product_screen.dart';
 class AppRouter {
   AppRouter._();
 
@@ -25,7 +25,15 @@ class AppRouter {
           return SignUpScreen();
         },
       ),
-
+      GoRoute(
+        path: '/product',
+        name: 'productScreen',
+        builder: (context, state) {
+          return const ProductScreen(
+            title: 'Product Screen',
+          );
+        },
+      ),
 
     ],
   );

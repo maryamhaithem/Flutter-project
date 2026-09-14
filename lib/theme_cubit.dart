@@ -3,9 +3,8 @@ import 'package:flutter_pro1/theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit() : super(ThemeState(isDark : false));
-
-  void toggleTheme(){
-    emit(ThemeState(isDark : state.isDark));
+  void toggleTheme() {
+    emit(ThemeState(isDark: !state.isDark));
   }
 }
 

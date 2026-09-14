@@ -51,6 +51,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto_Condensed-Black.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/images.jpg
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

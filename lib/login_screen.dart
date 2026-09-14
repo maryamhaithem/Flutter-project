@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'theme_cubit.dart';
 class LoginScreen extends StatefulWidget {
 const LoginScreen({super.key});
 
@@ -17,8 +18,9 @@ final _formKey = GlobalKey<FormState>();
 
 @override
 Widget build(BuildContext context) {
+  final isDark = Theme.of(context).brightness == Brightness.dark;
 return Scaffold(
-backgroundColor: Colors.black,
+  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
 body: SafeArea(
 child: Container(
@@ -27,14 +29,14 @@ height: double.infinity,
 
 margin: EdgeInsets.zero,
 
-padding: const EdgeInsets.symmetric(
+padding: EdgeInsets.symmetric(
 horizontal: 18,
 vertical: 24,
 ),
 
 decoration: BoxDecoration(
-color: Colors.black,
-borderRadius: BorderRadius.circular(18),
+  color: isDark ? Colors.black : Colors.white,
+  borderRadius: BorderRadius.circular(18),
 ),
 
 child: Form(
@@ -44,27 +46,38 @@ child: Column(
 mainAxisAlignment: MainAxisAlignment.start,
 crossAxisAlignment: CrossAxisAlignment.start,
 children: [
+  Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      Switch(
+        value: context.watch<ThemeCubit>().state.isDark,
+        onChanged: (value) {
+          context.read<ThemeCubit>().toggleTheme();
+        },
+      ),
+    ],
+  ),
 
-const Text(
+ SizedBox(height: 10),
+ Text(
 "Hey, Hello 👋",
 style: TextStyle(
-color: Colors.white,
+  color: isDark ? Colors.white : Colors.black,
 fontSize: 28,
 fontWeight: FontWeight.bold,
 ),
 ),
 
-const SizedBox(height: 6),
+ SizedBox(height: 6),
 
-const Text(
+ Text(
 "Enter your credentials to access\nyour account",
 style: TextStyle(
-color: Colors.white70,
-fontSize: 17,
+  color: isDark ? Colors.white70 : Colors.black54,
 ),
 ),
 
-const SizedBox(height: 20),
+ SizedBox(height: 20),
 
 Row(
 children: [
@@ -75,7 +88,7 @@ text: "Google",
 ),
 ),
 
-const SizedBox(width: 10),
+SizedBox(width: 10),
 
 Expanded(
 child: socialButton(
@@ -86,25 +99,24 @@ text: "Apple",
 ],
 ),
 
-const SizedBox(height: 14),
+ SizedBox(height: 14),
 
-const Center(
+ Center(
 child: Text(
 "or",
   style: TextStyle(
-color: Colors.white70,
+    color: isDark ? Colors.white : Colors.black,
 fontSize: 18,
 ),
 ),
 ),
 
-const SizedBox(height: 14),
+SizedBox(height: 14),
 
 
-label("Name"),
+  label("Name"),
 
-const SizedBox(height: 6),
-
+ SizedBox(height: 6),
 textField(
 validator: (value) {
 if (value == null || value.trim().isEmpty) {
@@ -114,16 +126,14 @@ return "Please enter your name";
 return null;
 },
 ),
-
-const SizedBox(height: 14),
+ SizedBox(height: 14),
 
 label("Email address"),
 
-const SizedBox(height: 6),
+ SizedBox(height: 6),
 
 textField(
 keyboardType: TextInputType.emailAddress,
-
 validator: (value) {
 if (value == null || value.trim().isEmpty) {
 return "Please enter your email";
@@ -157,15 +167,14 @@ fontSize: 16,
 
 const SizedBox(height: 6),
 
-// Password field
 SizedBox(
 height: 45,
 
 child: TextFormField(
 obscureText: !showPassword,
 
-style: const TextStyle(
-color: Colors.white,
+style:  TextStyle(
+  color: isDark ? Colors.white : Colors.black,
 ),
 
 // Password Validator
@@ -183,7 +192,9 @@ return null;
 
 decoration: InputDecoration(
 filled: true,
-fillColor: const Color(0xff303030),
+fillColor:isDark ?
+const Color(0xff303030) :
+const Color(0xffeeeeee),
 
 suffixIcon: IconButton(
 onPressed: () {
@@ -217,8 +228,8 @@ color: Colors.red,
 const SizedBox(height: 14),
 
 Row(
-children: [
-Checkbox(
+  children: [
+  Checkbox(
 value: agreeToTerms,
 
 onChanged: (value) {
@@ -227,23 +238,24 @@ agreeToTerms = value ?? false;
 });
 },
 
-side: const BorderSide(
-color: Colors.white,
-),
-),
-
-const Text(
+  side:  BorderSide(
+    color: isDark ?
+    Colors.white : Colors.black,
+  ),
+  ),
+Text(
 "I agree to the ",
 style: TextStyle(
-color: Colors.grey,
-fontSize: 15,
+  color: isDark ? Colors.grey
+      : Colors.black54,
+  fontSize: 15,
 ),
 ),
-
-const Text(
+ Text(
 "Terms & Privacy",
 style: TextStyle(
-color: Colors.white,
+  color: isDark ?
+  Colors.white : Colors.black,
 fontSize: 15,
 decoration: TextDecoration.underline,
 ),
@@ -307,15 +319,14 @@ Row(
 mainAxisAlignment: MainAxisAlignment.center,
 
 children: [
-const Text(
+ Text(
 "Don't have an account? ",
-
-style: TextStyle(
-color: Colors.white70,
-fontSize: 18,
+  style: TextStyle( color: isDark ?
+      Colors.white
+      : Colors.black,
+    fontSize: 18,
+  ),
 ),
-),
-
 GestureDetector(
 onTap: () {
 Navigator.push(
@@ -343,13 +354,14 @@ fontWeight: FontWeight.bold,
 
 const Spacer(),
 
-const Center(
+ Center(
 child: Text(
 "© 2023 SO, All right Reserved",
 
 style: TextStyle(
-color: Colors.grey,
-fontSize: 13,
+  color: isDark ?
+  Colors.grey
+      : Colors.black45,
 ),
 ),
 ),
@@ -360,37 +372,43 @@ fontSize: 13,
 ),
 );
 }
-
 Widget label(String text) {
+final isDark =
+Theme.of(context).brightness == Brightness.dark;
+
 return Text(
 text,
-
-style: const TextStyle(
-color: Colors.white,
+style: TextStyle(
+color: isDark ? Colors.white : Colors.black,
 fontSize: 18,
 ),
 );
 }
-
 Widget textField({
 TextInputType? keyboardType,
 String? Function(String?)? validator,
 }) {
+final isDark =
+Theme.of(context).brightness == Brightness.dark;
+
 return SizedBox(
 height: 45,
 
 child: TextFormField(
 keyboardType: keyboardType,
 
-style: const TextStyle(
-color: Colors.white,
+style: TextStyle(
+color: isDark ? Colors.white : Colors.black,
 ),
 
 validator: validator,
 
 decoration: InputDecoration(
 filled: true,
-fillColor: const Color(0xff303030),
+
+fillColor: isDark
+? const Color(0xff303030)
+: const Color(0xffeeeeee),
 
 border: OutlineInputBorder(
 borderRadius: BorderRadius.circular(6),
@@ -404,40 +422,49 @@ color: Colors.red,
 ),
 );
 }
-
 Widget socialButton({
-required FaIconData icon,
-required String text,
+  required FaIconData icon,
+  required String text,
 }) {
-return Container(
-height: 42,
+  final isDark =
+      Theme.of(context).brightness == Brightness.dark;
 
-decoration: BoxDecoration(
-color: Colors.white,
-borderRadius: BorderRadius.circular(6),
-),
+  return Container(
+    height: 42,
 
-child: Row(
-mainAxisAlignment: MainAxisAlignment.center,
+    decoration: BoxDecoration(
+      color: isDark
+          ? Colors.white
+          : Colors.black,
 
-children: [
-FaIcon(
-icon,
-size: 18,
-color: Colors.black,
-),
+      borderRadius: BorderRadius.circular(6),
+    ),
 
-const SizedBox(width: 7),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
 
-Text(
-text,
-style: const TextStyle(
-color: Colors.black,
-fontSize: 15,
-),
-),
-],
-),
-);
-}
-}
+      children: [
+        FaIcon(
+          icon,
+          size: 18,
+          color: isDark
+              ? Colors.black
+              : Colors.white,
+        ),
+
+        const SizedBox(width: 7),
+
+        Text(
+          text,
+          style: TextStyle(
+            color: isDark
+                ? Colors.black
+                : Colors.white,
+
+            fontSize: 15,
+          ),
+        ),
+      ],
+    ),
+  );
+}}

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'login_screen.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'theme_cubit.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -22,25 +23,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-
+  @override Widget build(BuildContext context) { final isDark = Theme.of(context)
+      .brightness == Brightness.dark;
+    return Scaffold( backgroundColor:
+  Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
+        child: SingleChildScrollView(
         child: Column(
           children: [
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Switch(
+                  value: context.watch<ThemeCubit>().state.isDark,
+                  onChanged: (value) {
+                    context.read<ThemeCubit>().toggleTheme();
+                  },
+                ),
+
+              ],
+            ),
+
             SizedBox(
               width: double.infinity,
-              height: 280,
+              height: 220,
               child: Image.asset(
                 'assets/images/images.jpg',
                 fit: BoxFit.cover,
               ),
             ),
-
-            Expanded(
-              child: Padding(
+                Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
 
                 child: Form(
@@ -52,12 +65,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 30),
 
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.only(left: 40),
                         child: Text(
                           "Let’s Connect With Us!",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: isDark ? Colors.white : Colors.black,
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
@@ -70,6 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         "Email Address",
                         emailController,
                         isEmail: true,
+                        isDark: isDark,
                       ),
 
                       const SizedBox(height: 21),
@@ -78,15 +92,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         "Password",
                         passwordController,
                         isPassword: true,
+                        isDark: isDark,
                       ),
 
                       const SizedBox(height: 10),
-                      const Align(
+                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
                           "Forgot password?",
                           style: TextStyle(
-                            color: Colors.white70,
+                            color: isDark ? Colors.white : Colors.black,
                             fontSize: 16,
                           ),
                         ),
@@ -123,35 +138,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       const SizedBox(height: 25),
                       Row(
-                        children: [
-
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xff181818),
-                              thickness: 1,
+                        children: [ Expanded( child: Divider( color: isDark ?
+                        const Color(0xff181818) : Colors.grey, thickness: 1,
+                        ),
+                        ),
+                          Padding( padding: const EdgeInsets.symmetric(
+                            horizontal: 10, )
+                            , child: Text( "or", style: TextStyle(
+                              color: isDark ? Colors.white :
+                              Colors.black, fontSize: 19,
+                            ),
                             ),
                           ),
-
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              "or",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 19,
-                              ),
-                            ),
+                          Expanded( child: Divider( color: isDark ?
+                          const Color(0xff181818) :
+                        Colors.grey, thickness: 1,
                           ),
-
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xff181818),
-                              thickness: 1,
-                            ),
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 20),
                       socialButton(
                         icon: FontAwesomeIcons.apple,
@@ -163,43 +168,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         icon: FontAwesomeIcons.google,
                         text: "Sign up with Google",
                       ),
-
-                      const Spacer(),
-
-
-
+                      const SizedBox(height: 20),
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-
-                            const Text(
-                              "Don't have an account? ",
+                           Text( "Don't have an account? ",
+                          style: TextStyle( color: isDark ? Colors.white70
+                              : Colors.black54,
+                            fontSize: 12,
+                          ), ),
+                            GestureDetector( onTap: () {
+                              Navigator.push( context, MaterialPageRoute(
+                                builder: (context) => const LoginScreen()
+                                ,
+                              ),
+                              );
+                              }, child: const Text( "Sign up",
                               style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
+                                color: Colors.blue,
+                        fontSize: 12,
                               ),
                             ),
-
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                    const LoginScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                "Sign up",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 12,
-                                ),
-                              ),
                             ),
-                          ],
+                          ]
                         ),
                       ),
 
@@ -208,20 +200,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-            ),
+
           ],
         ),
       ),
-    );
+      ));
   }
-
-
 
   Widget textField(
       String hint,
       TextEditingController controller, {
         bool isEmail = false,
         bool isPassword = false,
+        required bool isDark,
       }) {
     return SizedBox(
       width: double.infinity,
@@ -236,8 +227,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         obscureText: isPassword,
         autovalidateMode: AutovalidateMode.onUserInteraction,
 
-        style: const TextStyle(
-          color: Colors.white,
+        style:
+        TextStyle(
+          color: isDark ? Colors.white : Colors.black,
           fontSize: 15,
         ),
 
@@ -251,7 +243,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
           if (isEmail) {
             final emailRegex = RegExp(
-              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
             );
 
             if (!emailRegex.hasMatch(text)) {
@@ -278,8 +270,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         decoration: InputDecoration(
           hintText: hint,
 
-          hintStyle: const TextStyle(
-            color: Colors.grey,
+          hintStyle:
+          TextStyle(
+            color: isDark ? Colors.grey : Colors.grey.shade600,
             fontSize: 14,
           ),
 
@@ -329,43 +322,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget socialButton({
-    required FaIconData icon,
-    required String text,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 34,
+Widget socialButton({
+required FaIconData icon,
+required String text,
+}) {
+final isDark =
+Theme.of(context).brightness == Brightness.dark;
 
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
+return SizedBox(
+width: double.infinity,
+height: 34,
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+child: Container(
+decoration: BoxDecoration(
+color: isDark
+? Colors.white
+: Colors.black,
 
-            FaIcon(
-              icon,
-              color: Colors.black,
-              size: 16,
-            ),
+borderRadius: BorderRadius.circular(20),
+),
 
-            const SizedBox(width: 9),
+child: Row(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
 
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+FaIcon(
+icon,
+color: isDark
+? Colors.black
+: Colors.white,
+size: 16,
+),
+
+const SizedBox(width: 9),
+
+Text(
+text,
+style: TextStyle(
+color: isDark
+? Colors.black
+: Colors.white,
+
+fontSize: 18,
+fontWeight: FontWeight.w500,
+),
+),
+
+],
+),
+),
+);
+} }
